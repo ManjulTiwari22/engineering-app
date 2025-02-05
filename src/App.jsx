@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
+import LoginPage from "./LoginPage";
 import { ShellDishendCalculator } from "./components/ShellDishendCalculator";
 import { PressureVesselPaintCalculator } from "./components/PressureVesselPaintCalculator";
 import { WeldingElectrodeCalculator } from "./components/WeldingElectrodeCalculator";
@@ -16,64 +17,31 @@ function PressureVesselTimeEstimation() {
         engineers, and manufacturers plan efficiently by providing a breakdown
         of time requirements for each phase of production.
       </p>
-
-      <h3 className="subtitle">Key Factors Considered:</h3>
-      <div className="factors-list">
-        {[
-          {
-            num: 1,
-            title: "Design & Engineering",
-            desc: "– Complexity of the vessel, regulatory approvals.",
-          },
-          {
-            num: 2,
-            title: "Material Procurement",
-            desc: "– Availability, supplier lead times.",
-          },
-          {
-            num: 3,
-            title: "Fabrication & Welding",
-            desc: "– Size, thickness, welding complexity.",
-          },
-          {
-            num: 4,
-            title: "Inspection & Testing",
-            desc: "– Non-destructive testing, hydrostatic testing.",
-          },
-          {
-            num: 5,
-            title: "Surface Treatment",
-            desc: "– Painting, coating, insulation.",
-          },
-          {
-            num: 6,
-            title: "Delivery & Installation",
-            desc: "– Transportation distance, site preparation.",
-          },
-        ].map(({ num, title, desc }) => (
-          <div key={num} className="factor-item">
-            <span className="factor-number">{num}.</span>
-            <span className="factor-title">{title}</span>
-            <span className="factor-description">{desc}</span>
-          </div>
-        ))}
-      </div>
-
-      <p className="summary">
-        By inputting project-specific parameters, the calculator provides an
-        estimated timeline, helping teams optimize scheduling and resource
-        allocation. It minimizes delays, enhances cost control, and ensures
-        timely project completion. A well-designed calculator improves
-        efficiency in pressure vessel manufacturing and delivery.
-      </p>
     </div>
   );
 }
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState("Pressure Vessel Time Estimation");
   let link = "https://thicknesscalculation.web.app/";
   let image = "crownpetal-removebg-preview.png";
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const logoutTimer = setTimeout(() => {
+        setIsAuthenticated(false);
+        console.log("Auto-logged out after 30 minutes.");
+      }, 30 * 60 * 1000);
+      return () => clearTimeout(logoutTimer);
+    }
+  }, [isAuthenticated]);
+
+  const handleLogin = () => {
+    console.log("Login Successful, updating state...");
+    setIsAuthenticated(true);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "Pressure Vessel Time Estimation":
@@ -103,52 +71,37 @@ function App() {
 
   return (
     <div className="container">
-      <div className="layout">
-        {/* Sidebar */}
-        <aside className="sidebar">
-          <div className="logo">
-            <div className="logo-square"></div>
-            <h1>Engineering App</h1>
-          </div>
-          <nav className="nav-menu">
-            {[
-              "Pressure Vessel Time Estimation",
-              "Shell & Dishend Thickness Calculator",
-              "Pressure Vessel Paint Calculator",
-              "Welding Electrode Calculator",
-              "Crown & Petal Plate Calculation",
-            ].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className={`nav-item ${item === activeTab ? "active" : ""}`}
-                onClick={() => setActiveTab(item)}
-              >
-                {item}
+      {!isAuthenticated ? (
+        <LoginPage onLogin={handleLogin} />
+      ) : (
+        <div className="dashboard">
+          <header className="dashboard-header">
+            <h1>Engineering App Dashboard</h1>
+          </header>
+          <div className="layout">
+            <aside className="sidebar">
+              <nav className="nav-menu">
+                {["Pressure Vessel Time Estimation", "Shell & Dishend Thickness Calculator", "Pressure Vessel Paint Calculator", "Welding Electrode Calculator", "Crown & Petal Plate Calculation"].map((item) => (
+                  <button key={item} className={`nav-item ${item === activeTab ? "active" : ""}`} onClick={() => setActiveTab(item)}>
+                    {item}
+                  </button>
+                ))}
+              </nav>
+            </aside>
+            <main className="main-content">{renderContent()}</main>
+            <aside className="right-panel">
+              <div className="image-container">
+                <img src={`/${image}`} alt="Calculation" className="vessel-image" />
+              </div>
+              <a href={link} target="_blank" rel="noreferrer">
+                <button className="calculate-button">Calculate</button>
               </a>
-            ))}
-          </nav>
-        </aside>
-
-        {/* Main Content */}
-        <main className="main-content">{renderContent()}</main>
-
-        {/* Right Panel */}
-        <aside className="right-panel">
-          <div className="image-container">
-            <img
-              src={`/${image}`}
-              alt="Pressure Vessel"
-              className="vessel-image"
-            />
+            </aside>
           </div>
-          <a href={link} target="_blank" rel="noreferrer">
-            <button className="calculate-button">Calculate</button>
-          </a>
-        </aside>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
 
-export default App;
+export default App;
