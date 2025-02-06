@@ -57,7 +57,7 @@ function App() {
         image = "paint.png";
         return <PressureVesselPaintCalculator />;
       case "Welding Electrode Calculator":
-        link = "https://weldingcalculator-d445d.web.app/";
+        link = "https://weldingcalculator-d445d.web.app/calculator";
         image = "electrode-removebg-preview.png";
         return <WeldingElectrodeCalculator />;
       case "Crown & Petal Plate Calculation":
