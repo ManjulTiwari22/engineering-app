@@ -5,6 +5,8 @@ import { ShellDishendCalculator } from "./components/ShellDishendCalculator";
 import { PressureVesselPaintCalculator } from "./components/PressureVesselPaintCalculator";
 import { WeldingElectrodeCalculator } from "./components/WeldingElectrodeCalculator";
 import { CrownPetalPlateCalculation } from "./components/CrownPetalPlateCalculation";
+import { RTTimeCalculation } from "./components/RTTimeCalculation";
+import { PVCostEstimation } from "./components/PVCostEstimation";
 
 function PressureVesselTimeEstimation() {
   return (
@@ -17,23 +19,66 @@ function PressureVesselTimeEstimation() {
         engineers, and manufacturers plan efficiently by providing a breakdown
         of time requirements for each phase of production.
       </p>
+  
+      <h3 className="sub-title">Key Features:</h3>
+      <ul className="feature-list">
+        <li>
+          <medium>Detailed Phase Estimation:</medium> Calculates the time required 
+          for design, material procurement, fabrication, inspection, and delivery.
+        </li>
+        <li>
+          <medium>Customizable Inputs:</medium> Allows users to adjust parameters 
+          such as vessel size, complexity, material type, and production method.
+        </li>
+        <li>
+          <medium>Real-Time Adjustments:</medium> Updates time estimates dynamically 
+          based on user inputs and industry standards.
+        </li>
+        <li>
+          <medium>Cost & Resource Planning:</medium> Helps in budget estimation 
+          and workforce allocation based on projected timelines.
+        </li>
+        <li>
+          <medium>Industry Standards Compliance:</medium> Incorporates ASME and 
+          other regulatory guidelines for realistic estimates.
+        </li>
+        <li>
+          <medium>Report Generation:</medium> Provides a downloadable report 
+          detailing estimated timelines and key production milestones.
+        </li>
+      </ul>
+  
+      <p className="note">
+        Optimize your pressure vessel project planning with accurate and data-driven 
+        time estimation. Streamline workflow and reduce unexpected delays.
+      </p>
     </div>
   );
-}
+}  
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
   const [activeTab, setActiveTab] = useState("Pressure Vessel Time Estimation");
   let link = "https://thicknesscalculation.web.app/";
   let image = "crownpetal-removebg-preview.png";
 
   useEffect(() => {
     if (isAuthenticated) {
+      // Store authentication state in localStorage
+      localStorage.setItem("isAuthenticated", "true");
+
       const logoutTimer = setTimeout(() => {
         setIsAuthenticated(false);
+        localStorage.removeItem("isAuthenticated");
         console.log("Auto-logged out after 30 minutes.");
       }, 30 * 60 * 1000);
+
       return () => clearTimeout(logoutTimer);
+    } else {
+      // Clear authentication state from localStorage
+      localStorage.removeItem("isAuthenticated");
     }
   }, [isAuthenticated]);
 
@@ -57,13 +102,21 @@ function App() {
         image = "paint.png";
         return <PressureVesselPaintCalculator />;
       case "Welding Electrode Calculator":
-        link = "https://weldingcalculator-d445d.web.app/";
+        link = "https://weldingcalculator-d445d.web.app/calculator";
         image = "electrode-removebg-preview.png";
         return <WeldingElectrodeCalculator />;
       case "Crown & Petal Plate Calculation":
         link = "https://cp-dishend-plt-calculation.web.app/";
         image = "crownpetal-removebg-preview.png";
         return <CrownPetalPlateCalculation />;
+      case "Budgetary Pressure Vessel Cost Calculator":
+        link = "https://pvcost-daf38.web.app/";
+        image = "PV_cost.png";
+        return <PVCostEstimation />;
+      case "Radiographic Testing Time Estimator":
+        link = "https://rttime-34f21.web.app/";
+        image = "RT_Est.png";
+        return <RTTimeCalculation />;
       default:
         return <PressureVesselTimeEstimation />;
     }
@@ -81,8 +134,20 @@ function App() {
           <div className="layout">
             <aside className="sidebar">
               <nav className="nav-menu">
-                {["Pressure Vessel Time Estimation", "Shell & Dishend Thickness Calculator", "Pressure Vessel Paint Calculator", "Welding Electrode Calculator", "Crown & Petal Plate Calculation"].map((item) => (
-                  <button key={item} className={`nav-item ${item === activeTab ? "active" : ""}`} onClick={() => setActiveTab(item)}>
+                {[
+                  "Pressure Vessel Time Estimation",
+                  "Shell & Dishend Thickness Calculator",
+                  "Pressure Vessel Paint Calculator",
+                  "Welding Electrode Calculator",
+                  "Crown & Petal Plate Calculation",
+                  "Budgetary Pressure Vessel Cost Calculator",
+                  "Radiographic Testing Time Estimator",
+                ].map((item) => (
+                  <button
+                    key={item}
+                    className={`nav-item ${item === activeTab ? "active" : ""}`}
+                    onClick={() => setActiveTab(item)}
+                  >
                     {item}
                   </button>
                 ))}
