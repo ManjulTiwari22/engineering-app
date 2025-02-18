@@ -70,8 +70,7 @@ function App() {
       localStorage.setItem("isAuthenticated", "true");
 
       const logoutTimer = setTimeout(() => {
-        setIsAuthenticated(false);
-        localStorage.removeItem("isAuthenticated");
+        handleLogout();
         console.log("Auto-logged out after 30 minutes.");
       }, 30 * 60 * 1000);
 
@@ -85,6 +84,12 @@ function App() {
   const handleLogin = () => {
     console.log("Login Successful, updating state...");
     setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    console.log("Logging out...");
+    setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
   };
 
   const renderContent = () => {
@@ -130,6 +135,9 @@ function App() {
         <div className="dashboard">
           <header className="dashboard-header">
             <h1>Engineering App Dashboard</h1>
+            <button className="logout-button" onClick={handleLogout}>
+              Logout
+            </button>
           </header>
           <div className="layout">
             <aside className="sidebar">
