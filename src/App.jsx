@@ -7,6 +7,7 @@ import { WeldingElectrodeCalculator } from "./components/WeldingElectrodeCalcula
 import { CrownPetalPlateCalculation } from "./components/CrownPetalPlateCalculation";
 import { RTTimeCalculation } from "./components/RTTimeCalculation";
 import { PVCostEstimation } from "./components/PVCostEstimation";
+import { PlateCuttingLayout } from "./components/PlateCuttingLayout";
 
 function PressureVesselTimeEstimation() {
   return (
@@ -107,7 +108,7 @@ function App() {
         image = "paint.png";
         return <PressureVesselPaintCalculator />;
       case "Welding Electrode Calculator":
-        link = "https://weldingcalculator-d445d.web.app/calculator";
+        link = "https://weldingcalculator-d445d.web.app/";
         image = "electrode-removebg-preview.png";
         return <WeldingElectrodeCalculator />;
       case "Crown & Petal Plate Calculation":
@@ -122,6 +123,10 @@ function App() {
         link = "https://rttime-34f21.web.app/";
         image = "RT_Est.png";
         return <RTTimeCalculation />;
+        case "Plate Cutting Layout":
+        link = "https://platecutting-7788f.web.app/";
+        image = "plate_layout.png";
+        return <PlateCuttingLayout />;
       default:
         return <PressureVesselTimeEstimation />;
     }
@@ -150,6 +155,7 @@ function App() {
                   "Crown & Petal Plate Calculation",
                   "Budgetary Pressure Vessel Cost Calculator",
                   "Radiographic Testing Time Estimator",
+                  "Plate Cutting Layout",
                 ].map((item) => (
                   <button
                     key={item}

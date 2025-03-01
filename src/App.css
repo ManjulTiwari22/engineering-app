@@ -1,12 +1,13 @@
 /* Reset and base styles */
 * {
+  font-family: Montserrat, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat, sans-serif;
   line-height: 1.6;
   font-weight: 400;
   background-color: #f0f4f8;
